@@ -1,14 +1,16 @@
 import json
-from engine.web_server import handler
+from engine import console
+from engine.functions import handler
 
 
 async def processing_request(web, request, token, post=False):
-    route = request.path
+    """Функция "processing_request" - обрабатывает текущий запрос на Веб-сервер от клиента."""
+    route_path = request.path
     headers = request.headers
     query_args = request.rel_url.query
 
-    if route is not None or route != '':
-        route_path = route.lower()
+    if route_path is not None or route_path != '':
+        route_path = route_path.lower()
         path_args = route_path.split('/')
         processed_name = ''.join(path_args)
 
@@ -41,3 +43,22 @@ async def processing_request(web, request, token, post=False):
             return web.json_response({'status': False, 'type': 'error', 'text': '404: Not found'})
     else:
         return web.json_response({'status': False, 'type': 'error', 'text': '404: Not found'})
+
+
+def processing_commands(command_name: str):
+    """Функция "processing_commands" - обрабатывает аргументы от Менеджера."""
+
+    for command in handler.commands:
+        if command.name.lower() == command_name:
+            return command.handle()
+    else:
+        error_text = '(MANAGER): такого аргумента нет!\n'
+        commands_list = [[command.name, command.description] for command in handler.commands]
+
+        if len(commands_list) > 0:
+            error_text += '\nДоступные аргументы:'
+            for command in commands_list:
+                error_text += f'\n{command[0]} - {command[1]}'
+
+        error_text += '\n\n* Проверьте правильность написанного аргумента и повторите попытку..'
+        console.error(text=error_text)

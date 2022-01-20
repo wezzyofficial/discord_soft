@@ -2,6 +2,7 @@ import json, secrets, os, pathlib, platform
 
 
 def create_config_file(path: str):
+    """Функция "create_config_file" - создает новый конфиг."""
     data = {
         'server_secret': secrets.token_urlsafe(12),
         'tasker_secret': secrets.token_urlsafe(12),
@@ -12,7 +13,9 @@ def create_config_file(path: str):
 
     return data
 
+
 def load_config_file():
+    """Функция "load_config_file" - читает конфиг, если его нет - создает новый."""
     pathlib_path = pathlib.Path(__file__).parent.parent.parent
     path = f'{pathlib_path}/config.json'
     if platform.system() == 'Windows':

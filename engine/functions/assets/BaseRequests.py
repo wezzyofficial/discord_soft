@@ -15,6 +15,7 @@ class Route:
 
 
     async def handle(self, web, db, request, query_args, path_args, json_data, headers, token, post):
+        """Функция "handle" - помогает в обработке полученного запроса и отлова ошибок."""
         request_token = headers.get('Authorization', None)
 
         try:
@@ -31,3 +32,25 @@ class Route:
             ex_type, ex, tb = sys.exc_info()
             print(ex, traceback.format_tb(tb))
             return None
+
+
+class Command:
+    def __init__(self, **kwargs):
+        if not kwargs.keys() & {'name', 'handler', 'admin'}:
+            raise Exception('Not enough arguments to create command object')
+        self.name = kwargs['name'].lower()
+        self.description = kwargs['description']
+
+        self.__handler = kwargs['handler']
+
+
+    def handle(self):
+        """Функция "handle" - помогает в обработке команд "Manager" и отлова ошибок."""
+
+        try:
+            self.__handler()
+            return True
+        except Exception:
+            ex_type, ex, tb = sys.exc_info()
+            print(ex, traceback.format_tb(tb))
+            return False

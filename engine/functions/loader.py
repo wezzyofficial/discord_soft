@@ -2,6 +2,12 @@ import os, importlib, pathlib, platform
 
 
 def read_handlers(program_type):
+    """Функция "read_handlers" - импортирует Python файлы в проект."""
+    if program_type == 'manager':
+        program_type = 'engine/commands'
+        if platform.system() == 'Windows':
+            program_type = 'engine\\commands'
+
     pathlib_path = pathlib.Path(__file__).parent.parent.parent
 
     path = f'{pathlib_path}/{program_type}'

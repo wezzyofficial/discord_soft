@@ -1,21 +1,10 @@
 import sys
-from engine import console
-from engine.web_server.app import WebServer
+from engine.manager import DSManager
 
 
 def main(args: list):
-    arg = 'client'
-    if len(args) == 2:
-        arg = args[1].lower()
-
-    if arg == 'client':
-        console.log_na(text='(MANAGER) › Инициализация процесса "client"!')
-    elif arg == 'server' or arg == 'tasker':
-        console.log_na(text=f'(MANAGER) › Инициализация процесса "{arg}"!')
-
-        WebServer(program_type=arg)
-    else:
-        console.error_na(text='(MANAGER) › Неверный аргумент, доступные аргументы: client / server / tasker')
+    """Функция "main" - для инициализации менеджера команд."""
+    DSManager(args=args)
 
 
 if __name__ == "__main__":

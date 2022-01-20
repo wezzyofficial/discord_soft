@@ -11,25 +11,16 @@ logging.basicConfig(handlers=(file_log, console_out),
                     level=logging.INFO)
 
 
-async def log(text):
+def log(text):
+    """Функция "log" - создает сообщение об информации."""
     logging.info(text)
 
 
-async def error(text):
+def error(text):
+    """Функция "error" - создает сообщение о ошибке."""
     logging.error(text)
 
 
-async def warning(text):
-    logging.warning(text)
-
-
-def log_na(text):
-    logging.info(text)
-
-
-def error_na(text):
-    logging.error(text)
-
-
-def warning_na(text):
+def warning(text):
+    """Функция "warning" - создает сообщение о предупреждение."""
     logging.warning(text)

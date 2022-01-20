@@ -1,4 +1,4 @@
-from engine.web_server import handler
+from engine.functions import handler
 
 
 @handler.route(name='test', auth=True, with_args=False)
