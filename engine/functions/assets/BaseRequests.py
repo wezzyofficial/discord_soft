@@ -54,3 +54,25 @@ class Command:
             ex_type, ex, tb = sys.exc_info()
             print(ex, traceback.format_tb(tb))
             return False
+
+
+class Arg:
+    def __init__(self, **kwargs):
+        if not kwargs.keys() & {'name', 'handler', 'admin'}:
+            raise Exception('Not enough arguments to create command object')
+        self.name = kwargs['name'].lower()
+        self.description = kwargs['description']
+
+        self.__handler = kwargs['handler']
+
+
+    def handle(self):
+        """Функция "handle" - помогает в обработке аргументов "Manager" и отлова ошибок."""
+
+        try:
+            self.__handler()
+            return True
+        except Exception:
+            ex_type, ex, tb = sys.exc_info()
+            print(ex, traceback.format_tb(tb))
+            return False

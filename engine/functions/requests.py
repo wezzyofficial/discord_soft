@@ -45,20 +45,72 @@ async def processing_request(web, request, token, post=False):
         return web.json_response({'status': False, 'type': 'error', 'text': '404: Not found'})
 
 
-def processing_commands(command_name: str):
+def processing_args(arg_str: str):
     """Функция "processing_commands" - обрабатывает аргументы от Менеджера."""
 
-    for command in handler.commands:
-        if command.name.lower() == command_name:
-            return command.handle()
+    for arg in handler.args:
+        if arg.name.lower() == arg_str:
+            return arg.handle()
     else:
         error_text = '(MANAGER): такого аргумента нет!\n'
-        commands_list = [[command.name, command.description] for command in handler.commands]
+        args_list = [[arg.name, arg.description] for arg in handler.args]
 
-        if len(commands_list) > 0:
+        if len(args_list) > 0:
             error_text += '\nДоступные аргументы:'
-            for command in commands_list:
-                error_text += f'\n{command[0]} - {command[1]}'
+            for arg in args_list:
+                error_text += f'\n{arg[0]} - {arg[1]}'
 
         error_text += '\n\n* Проверьте правильность написанного аргумента и повторите попытку..'
         console.error(text=error_text)
+
+
+def processing_commands(command_str: str, first_start: bool):
+    """Функция "processing_commands" - обрабатывает аргументы от Менеджера."""
+
+    if command_str == 'menu':
+        first_start = True
+        command_str = '0'
+
+    if command_str.isdigit():
+        for command in handler.commands:
+            if command.name.lower() == command_str:
+                console.log(text=f'(Client): Инициализация процесса "{command.description}"..')
+
+                command.handle()
+
+                console.log(text=f'(Client): Процесс "{command.description}" выполнен!\n')
+
+                return processing_commands(command_str='0', first_start=True)
+        else:
+            if first_start is False:
+                console.log(text='(CLIENT) Такой команды нет!\n')
+
+            commands_list = [[command.name, command.description] for command in handler.commands]
+
+            if len(commands_list) > 0:
+                console.log(text='(Client) Доступные команды:')
+                for num, command in enumerate(commands_list, start=1):
+                    console.log(text=f'(Client) {command[0]}. {command[1]}')
+
+            if len(commands_list) > 0:
+                console.log(text='(Client) Выберите интересующий вас вариант:')
+            else:
+                console.log(text='(Client) Команд сейчас нет!')
+
+            if len(commands_list) > 0:
+                try:
+                    command_str = input()
+                except:
+                    command_str = None
+
+                if command_str is not None:
+                    if command_str == '':
+                        command_str = '0'
+
+                    return processing_commands(command_str=command_str, first_start=False)
+                else:
+                    console.log('(Client) Пункт меню должен быть целым числом, повторите попытку еще раз..\n')
+                    return processing_commands(command_str='0', first_start=True)
+    else:
+        console.log('(Client) Пункт меню должен быть целым числом, повторите попытку еще раз..\n')
+        return processing_commands(command_str='0', first_start=True)

@@ -4,6 +4,10 @@ import os, importlib, pathlib, platform
 def read_handlers(program_type):
     """Функция "read_handlers" - импортирует Python файлы в проект."""
     if program_type == 'manager':
+        program_type = 'engine/args'
+        if platform.system() == 'Windows':
+            program_type = 'engine\\args'
+    elif program_type == 'client_commands':
         program_type = 'engine/commands'
         if platform.system() == 'Windows':
             program_type = 'engine\\commands'
