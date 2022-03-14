@@ -1,0 +1,25 @@
+{
+    "chats": [
+        {
+            "name": "chat_1",
+            "status": true,
+            "link": "test_link",
+            "captcha": "reaction",
+            "reaction": ""
+        },
+        {
+            "name": "chat_2",
+            "status": true,
+            "link": "test_link2",
+            "captcha": "reaction",
+            "reaction": ""
+        },
+        {
+            "name": "chat_3",
+            "status": true,
+            "link": "test_link",
+            "captcha": "reaction",
+            "reaction": ""
+        }
+    ]
+}

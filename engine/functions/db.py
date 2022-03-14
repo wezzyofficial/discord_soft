@@ -13,9 +13,9 @@ class DSDatabases:
         """Функция "path_constructor" - позволяет собрать путь до BD."""
         self.temp_path = pathlib.Path(__file__).parent.parent.parent
 
-        path = f'{self.temp_path}/data/{self.program_type}.db'
+        path = f'{self.temp_path}/data_{self.program_type}/{self.program_type}.db'
         if platform.system() == 'Windows':
-            path = f'{self.temp_path}\\data\\{self.program_type}.db'
+            path = f'{self.temp_path}\\data_{self.program_type}\\{self.program_type}.db'
 
         return path
 

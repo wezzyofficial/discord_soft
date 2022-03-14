@@ -1,21 +1,24 @@
+import pathlib, platform
 from engine.functions.loader import read_handlers
 from engine.functions.configs import load_config_file
-from engine.functions.requests import processing_args, processing_commands
+from engine.functions.requests import processing_args
 
 
 class DSManager:
     def __init__(self, args: list):
+        self.__full_path = pathlib.Path(__file__).parent.parent
         self.__config = load_config_file()
         self.__args = args
 
-        self.arg = None
-        self.read_args = None
-        self.read_commands = None
+        path = f'{self.__full_path}/main.py'
+        if platform.system() == 'Windows':
+            path = f'{self.__full_path}\\main.py'
 
-        if self.__args[0] == 'client_commands':
-            self.read_commands = read_handlers(program_type='client_commands')
-            processing_commands(command_str='menu', first_start=True)
-        else:
-            self.arg = self.__args[1] if len(args) == 2 else 'client'
-            self.read_args = read_handlers(program_type='manager')
-            processing_args(arg_str=self.arg)
+        if path in self.__args:
+            self.__args.remove(path)
+
+        if 'main.py' in self.__args:
+            self.__args.remove('main.py')
+
+        self.read_handler_args = read_handlers(program_type='not_server')
+        processing_args(args=self.__args)

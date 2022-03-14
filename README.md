@@ -18,10 +18,6 @@ pip install -r requirements.txt
 python main.py client
 ```
 
-Запустить контоль задач в командной строке:
-```sh
-python main.py tasker
-```
 
 Запустить сервер в командной строке:
 ```sh

@@ -1,7 +1,7 @@
-from engine.functions.assets import Route, Command, Arg
+from engine.functions.assets import Route, Arg
 
 
-routes, commands, args = ([], [], [])
+routes, args = ([], [])
 
 
 def route(**kwargs):
@@ -21,21 +21,6 @@ def route(**kwargs):
     return with_args
 
 
-def command(**kwargs):
-    """Функция "command" - используется как декоратор - хендлер."""
-    def with_args(handler):
-        if kwargs.keys() & {'name'}:
-            if not isinstance(kwargs['name'], list):
-                kwargs['name'] = [kwargs['name']]
-            for cmd in kwargs['name']:
-                commands.append(Command(name=cmd, handler=handler,
-                                        description=(kwargs['description'] if 'description' in kwargs else 'Неизвестно')))
-        else:
-            return False
-
-    return with_args
-
-
 def arg(**kwargs):
     """Функция "command" - используется как декоратор - хендлер."""
     def with_args(handler):
@@ -44,7 +29,8 @@ def arg(**kwargs):
                 kwargs['name'] = [kwargs['name']]
             for cmd in kwargs['name']:
                 args.append(Arg(name=cmd, handler=handler,
-                                description=(kwargs['description'] if 'description' in kwargs else 'Нет описания')))
+                                description=(kwargs['description'] if 'description' in kwargs else 'Нет описания'),
+                                with_args=(kwargs['with_args'] if 'with_args' in kwargs else False)))
         else:
             return False
 

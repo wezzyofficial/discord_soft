@@ -5,7 +5,7 @@ from engine.functions.requests import processing_request
 
 
 class WebServer:
-    def __init__(self, program_type='tasker'):
+    def __init__(self, program_type='server'):
         self.program_type = program_type
         self.__config = load_config_file()
         self.__token = self.__config.get(f'{program_type}_secret', None)
