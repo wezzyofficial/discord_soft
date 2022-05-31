@@ -23,3 +23,5 @@ async def _(web, db, request, query_args, path_args, json_data):
             return web.json_response({'status': False, 'type': 'error.sync.json_data', 'text': 'Chats: Data not request'})
     else:
         return web.json_response({'status': False, 'type': 'error.sync.json_data', 'text': 'JSON: Data not found'})
+    
+    # by wezzyofficial
